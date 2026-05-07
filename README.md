@@ -1,32 +1,34 @@
-# php-auth-app (Plain PHP + MySQL + Nginx)
+# Social Network (PHP + MySQL + Nginx + Linux)
 
-Web app đăng ký (`register`), đăng nhập (`login`), hiển thị/cập nhật `description` và lưu vào MySQL.
+This repo implements the “Social Network” assignment.
 
-## 1) File chính
+## Required URLs
 
-- `register.php`: trang đăng ký (username, email, password, description)
-- `login.php`: trang đăng nhập
-- `description.php`: trang xem/cập nhật description của user đang đăng nhập
-- `logout.php`: đăng xuất
-- `app/`: helpers + kết nối DB
+- Admin page: `/admin/newuser.php`
+- SignIn: `/socialnet/signin.php`
+- Home: `/socialnet/index.php`
+- Setting: `/socialnet/setting.php`
+- Profile: `/socialnet/profile.php` (optional query: `?owner=some_user`)
+- About: `/socialnet/about.php`
+- SignOut: `/socialnet/signout.php`
 
-## 2) Database
+MenuBar is included in Home/Setting/Profile/About.
 
-Chạy SQL:
+## Database
+
+Import `db.sql` to create database `socialnet` and table `account`.
+
+Example:
 
 ```sql
-SOURCE /path/to/php-auth-app/db/init.sql;
+SOURCE /var/www/php-auth-app/db.sql;
 ```
 
-Sau đó nhớ chỉnh mật khẩu MySQL ở `db/init.sql` (các chỗ `change_me`) cho khớp cấu hình app.
+## Configuration
 
-## 3) Cấu hình app trên Kali
+Create `includes/config.local.php` on the server (not committed).
 
-Tạo file:
-
-`app/config.local.php`
-
-Ví dụ:
+Example:
 
 ```php
 <?php
@@ -34,25 +36,20 @@ return [
   'db' => [
     'host' => '127.0.0.1',
     'port' => 3306,
-    'name' => 'php_auth_app',
-    'user' => 'php_auth_user',
+    'name' => 'socialnet',
+    'user' => 'socialnet_user',
     'pass' => 'CHANGE_ME',
     'charset' => 'utf8mb4',
+  ],
+  'student' => [
+    'name' => 'YOUR_NAME',
+    'number' => 'YOUR_STUDENT_NUMBER',
   ],
 ];
 ```
 
-## 4) Nginx
+## Nginx
 
-File mẫu cấu hình:
-
-- `nginx/php-auth-app.conf`
-
-Bạn thay `server_name` và chỉnh `fastcgi_pass` (php-fpm sock) cho đúng version PHP trên Kali, rồi bật site.
-
-## 5) Lưu ý bảo mật (tối thiểu)
-
-- Password hash bằng `password_hash()`
-- Prepared statements cho truy vấn
-- CSRF token cho form
+Use `nginx/php-auth-app.conf` as a template.
+Update `fastcgi_pass` to match your installed PHP-FPM socket (e.g. `/run/php/php8.2-fpm.sock`).
 

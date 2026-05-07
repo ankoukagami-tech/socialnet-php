@@ -1,4 +1,4 @@
-app/config.local.php
+includes/config.local.php
 
 # OS/Editor
 .DS_Store
