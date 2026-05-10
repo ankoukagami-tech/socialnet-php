@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-// Copy to includes/config.local.php on the server and adjust credentials.
 return [
   'db' => [
     'host' => '127.0.0.1',

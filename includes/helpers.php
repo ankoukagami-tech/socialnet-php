@@ -17,7 +17,7 @@ function session_start_secure(): void
     session_set_cookie_params([
       'httponly' => true,
       'samesite' => 'Lax',
-      'secure' => false, // HTTP lab. Set true if using HTTPS.
+      'secure' => false,
     ]);
     session_start();
   }

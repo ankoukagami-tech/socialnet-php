@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-// Common menu bar for /socialnet pages.
 ?>
 <nav style="margin-bottom: 16px;">
   <a href="/socialnet/index.php">Home</a> |
