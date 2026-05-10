@@ -50,8 +50,28 @@ return [
 ];
 ```
 
-## Nginx
+## Deploy on Linux (Nginx)
 
-Use `nginx/php-auth-app.conf` as a template.
-Update `fastcgi_pass` to match your installed PHP-FPM socket (e.g. `/run/php/php8.2-fpm.sock`).
+1. Copy or clone this repository to `/var/www/php-auth-app` and ensure the web user can read it (often `www-data`).
+2. Import `db.sql` and create `includes/config.local.php` as described above.
+3. Copy `nginx/php-auth-app.conf` into your Nginx `sites-available`, enable the site, then:
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+4. Set `fastcgi_pass` to the PHP-FPM socket that exists on your machine. Check with:
+
+```bash
+ls -la /run/php/
+```
+
+Examples: `php8.2-fpm.sock`, `php8.3-fpm.sock`, `php8.4-fpm.sock`. The template uses **PHP 8.4** (`/run/php/php8.4-fpm.sock`), which matches typical current Kali installs; change the filename if yours differs.
+
+## Quick demo (same machine)
+
+With Nginx listening on port 80 and the document root set to this project:
+
+- `http://127.0.0.1/admin/newuser.php` — create a user  
+- `http://127.0.0.1/socialnet/signin.php` — sign in and test the rest of the app
 
