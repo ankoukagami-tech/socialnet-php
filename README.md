@@ -44,8 +44,8 @@ return [
     'charset' => 'utf8mb4',
   ],
   'student' => [
-    'name' => 'YOUR_NAME',
-    'number' => 'YOUR_STUDENT_NUMBER',
+    'name' => 'NguyenTruongSon',
+    'number' => '1701800',
   ],
 ];
 ```
