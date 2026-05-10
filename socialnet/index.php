@@ -17,7 +17,9 @@ if (!$me) {
   redirect_to('/socialnet/signin.php');
 }
 
-$others = $pdo->query('SELECT username, fullname FROM account ORDER BY username ASC')->fetchAll();
+$stmtOthers = $pdo->prepare('SELECT username, fullname FROM account WHERE id <> ? ORDER BY username ASC');
+$stmtOthers->execute([(int)$meId]);
+$others = $stmtOthers->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
@@ -38,15 +40,19 @@ $others = $pdo->query('SELECT username, fullname FROM account ORDER BY username 
   </ul>
 
   <h2>Other users</h2>
-  <ul>
-    <?php foreach ($others as $u): ?>
-      <li>
-        <a href="/socialnet/profile.php?owner=<?= urlencode((string)$u['username']) ?>">
-          <?= h((string)$u['username']) ?> (<?= h((string)$u['fullname']) ?>)
-        </a>
-      </li>
-    <?php endforeach; ?>
-  </ul>
+  <?php if ($others === []): ?>
+    <p>No other users yet.</p>
+  <?php else: ?>
+    <ul>
+      <?php foreach ($others as $u): ?>
+        <li>
+          <a href="/socialnet/profile.php?owner=<?= urlencode((string)$u['username']) ?>">
+            <?= h((string)$u['username']) ?> (<?= h((string)$u['fullname']) ?>)
+          </a>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
 </body>
 </html>
 

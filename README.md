@@ -18,6 +18,8 @@ MenuBar is included in Home/Setting/Profile/About.
 
 Import `db.sql` to create database `socialnet` and table `account`.
 
+The assignment mentions a `password` column; this schema stores the bcrypt hash in `password_hash`, which meets the same requirement and is safer than storing plaintext passwords.
+
 Example:
 
 ```sql
